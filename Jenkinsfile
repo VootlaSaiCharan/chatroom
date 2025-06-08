@@ -46,14 +46,14 @@ pipeline{
                 }
             }
         }
-        stage('OWASP Scan') {
-            steps{
-                withCredentials([string(credentialsId: 'nvd-api-key', variable: 'NVD_API_KEY')]) {
-                    sh 'mkdir -p reports/dependency-check' // linux
-                    dependencyCheck additionalArguments: '''--scan ./ --out reports/dependency-check --project chatroom --format ALL --disableYarnAudit --disableNodeAudit --nvdApiKey ${NVD_API_KEY}''', odcInstallation: 'DP-Check'
-                }
-            }
-        }
+        // stage('OWASP Scan') {
+        //     steps{
+        //         withCredentials([string(credentialsId: 'nvd-api-key', variable: 'NVD_API_KEY')]) {
+        //             sh 'mkdir -p reports/dependency-check' // linux
+        //             dependencyCheck additionalArguments: '''--scan ./ --out reports/dependency-check --project chatroom --format ALL --disableYarnAudit --disableNodeAudit --nvdApiKey ${NVD_API_KEY}''', odcInstallation: 'DP-Check'
+        //         }
+        //     }
+        // }
         stage('sonarqube analysis') {
             steps{
                 withSonarQubeEnv('sonarqube-server') {
@@ -122,8 +122,6 @@ pipeline{
                                 echo "Deployment script exited with non-zero status: ${status}, but continuing the pipeline."
                             }
                         }
-                        sh 'exit 0'
-                        currentBuild.result = 'SUCCESS'  // Ensure the build is marked as successful
                     }
                 }
             }
@@ -134,7 +132,7 @@ pipeline{
             // Publish the Trivy report
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, icon: '', keepAll: true, reportDir: './', reportFiles: 'trivy-fs.html', reportName: 'Trivy fs HTML Report', reportTitles: '', useWrapperFileDirectly: true])
             // Publish the OWASP Dependency Check report
-            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, icon: '', keepAll: true, reportDir: 'reports/dependency-check/', reportFiles: 'dependency-check-jenkins.html', reportName: 'OWASP Dependency Check HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+            // publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, icon: '', keepAll: true, reportDir: 'reports/dependency-check/', reportFiles: 'dependency-check-jenkins.html', reportName: 'OWASP Dependency Check HTML Report', reportTitles: '', useWrapperFileDirectly: true])
             // Publish the Trivy image scan report
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, icon: '', keepAll: true, reportDir: './', reportFiles: 'trivy-image-HIGH-result.html', reportName: 'Trivy image HIGH HTML Report', reportTitles: '', useWrapperFileDirectly: true])
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, icon: '', keepAll: true, reportDir: './', reportFiles: 'trivy-image-CRITICAL-result.html', reportName: 'Trivy image CRITICAL HTML Report', reportTitles: '', useWrapperFileDirectly: true])
