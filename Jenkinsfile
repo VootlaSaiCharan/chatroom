@@ -25,5 +25,10 @@ pipeline{
                 sh 'mvn package'
             }
         }
+        stage('deploy'){
+            steps{
+                sh 'cp -r target/chatroom-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war'
+            }
+        }
     }
 }
