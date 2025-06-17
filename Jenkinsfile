@@ -8,6 +8,7 @@ pipeline{
         }
         stage('validate'){
             steps{
+                sh 'mvn --version'
                 sh 'mvn clean validate'
             }
         }
