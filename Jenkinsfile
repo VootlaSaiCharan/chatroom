@@ -20,6 +20,11 @@ pipeline{
                 sh 'mvn compile'
             }
         }
+        stage('trivy-file-scan'){
+            steps{
+                sh 'trivy fs --formate json --output trivy-fs-result.json .'
+            }
+        }
         stage('package'){
             steps{
                 sh 'mvn package'
