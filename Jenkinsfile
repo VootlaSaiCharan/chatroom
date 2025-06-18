@@ -22,7 +22,7 @@ pipeline{
         }
         stage('trivy-file-scan'){
             steps{
-                sh 'trivy fs --formate json --output trivy-fs-result.json .'
+                sh 'trivy fs --format json --output trivy-fs-result.json .'
             }
         }
         stage('package'){
