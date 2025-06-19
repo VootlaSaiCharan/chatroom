@@ -55,7 +55,7 @@ pipeline{
                         <p><strong>Status:</strong> <span style="color:${color};">${currentBuild.currentResult}</span></p>
                         <p><strong>View build:</strong> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
                     """,
-                    to: '<youname>@gmail.com',
+                    to: 'charanv369@gmail.com',
                     from: 'jenkins@gmail.com',
                     replyTo: 'jenkins@gmail.com',
                     mimeType: 'text/html',
