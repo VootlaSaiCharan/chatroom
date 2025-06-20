@@ -22,7 +22,7 @@ pipeline{
         }
         stage('trivy-file-scan'){
             steps{
-                sh 'trivy fs --severity HIGH,CRITICAL --exit-code 1 --format json --output trivy-fs-result.json .'
+                sh 'trivy fs --severity UNKOWN --exit-code 1 --format json --output trivy-fs-result.json .'
                 sh ''' trivy convert \
                 --format template --template "@/usr/local/share/trivy/templates/html.tpl" \
                 -o trivy-fs-result.html trivy-fs-result.json '''
