@@ -38,6 +38,9 @@ pipeline{
         }
         stage('sonarqube analysis'){
             steps{
+                // Print the SONARQUBE_HOME variable for debugging
+                sh 'echo "$SONARQUBE_HOME"'
+                // Run SonarQube scanner with the specified project key and name
                 withSonarQubeEnv('sonarqube-server'){
                     sh ''' $SONARQUBE_HOME/bin/sonar-scanner -Dsonar.projectKey=chatroom \
                         -Dsonar.projectName=chatroom -Dsonar.java.binaries=target '''
