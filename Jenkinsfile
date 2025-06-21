@@ -47,6 +47,13 @@ pipeline{
                 }
             }
         }
+        stage('sonarqube quality gate'){
+            steps{
+                timeout(time: 60, unit: 'SECONDS') {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-cred'
+                }
+            }
+        }
         stage('deploy'){
             steps{
                 sh 'cp -r target/chatroom-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war'
